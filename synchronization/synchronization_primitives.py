@@ -36,7 +36,7 @@ class Semaphore:
 class Lock:
     def __init__(self):
         self.holder = None
-        self.semaphore = Semaphore(1)
+        self.semaphore = threading.Semaphore(1)
 
     def acquire(self):
         self.semaphore.sema_down()
@@ -45,6 +45,24 @@ class Lock:
     def release(self):
         self.holder = None
         self.semaphore.sema_up()
+
+class Barrier:
+    def __init__(self, size):
+        self.semaphore = Semaphore(0)
+        self.mutex = Lock()
+        self.size = size
+        self.count = 0
+
+    def wait(self):
+        with self.mutex:
+            self.count += 1
+        if self.count == self.size:
+            self.semaphore.release()
+        self.semaphore.acquire()
+        self.semaphore.release()
+        
+            
+
 
 class RW:
     def __init__(self):

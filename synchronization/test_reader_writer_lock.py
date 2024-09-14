@@ -1,4 +1,4 @@
-import synchronization_primitives
+import synchronization.synchronization_primitives as synchronization_primitives
 import threading
 import time
 
